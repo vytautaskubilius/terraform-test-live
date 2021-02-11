@@ -43,14 +43,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: set-base-ref
-        run: |
-          if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
-            echo 'export SOURCE_REF=HEAD^' >> $GITHUB_ENV
-          else
-            echo 'export SOURCE_REF=$GITHUB_REF' >> $GITHUB_ENV
-          fi
-      - uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@main
+      - name: apply
+        uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@main
         with:
           aws-account-id: 473671374008
           region: us-east-1
