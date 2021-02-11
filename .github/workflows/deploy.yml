@@ -22,7 +22,7 @@ jobs:
           if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
             echo 'export SOURCE_REF=HEAD^' >> $GITHUB_ENV
           else
-            echo 'export SOURCE_REF=$GITHUB_BASE_REF' >> $GITHUB_ENV
+            echo 'export SOURCE_REF=$GITHUB_REF' >> $GITHUB_ENV
           fi
       - name: plan
         uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@main
@@ -47,7 +47,7 @@ jobs:
           if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
             echo 'export SOURCE_REF=HEAD^' >> $GITHUB_ENV
           else
-            echo 'export SOURCE_REF=$GITHUB_BASE_REF' >> $GITHUB_ENV
+            echo 'export SOURCE_REF=$GITHUB_REF' >> $GITHUB_ENV
           fi
       - uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@main
         with:
