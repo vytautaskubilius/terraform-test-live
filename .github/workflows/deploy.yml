@@ -1,0 +1,52 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+
+env:
+  GITHUB_OAUTH_TOKEN: {{ secrets.SRE_BOT_GRUNTWORK_OAUTH_TOKEN }}
+
+jobs:
+
+  plan:
+    environment: dev
+    env:
+      AWS_ACCESS_KEY_ID = ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY = ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: set-base-ref
+        run: |
+          if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
+            echo 'export SOURCE_REF=HEAD^' >> $GITHUB_ENV
+          else
+            echo 'export SOURCE_REF=$GITHUB_BASE_REF' >> $GITHUB_ENV
+          fi
+      - name: plan
+        uses: distil/sre-ecs-deploy-runner-github-action
+        with:
+          aws-account-id: 473671374008
+          region: us-east-1
+          base-ref: ${{ env.SOURCE_REF }}
+          command: plan
+
+  apply:
+    needs: plan
+    environment: dev
+    env:
+      AWS_ACCESS_KEY_ID = ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY = ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: distil/sre-ecs-deploy-runner-github-action
+        with:
+          aws-account-id: 473671374008
+          region: us-east-1
+          base-ref: HEAD^
+          command: apply
