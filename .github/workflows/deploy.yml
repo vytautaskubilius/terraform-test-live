@@ -13,7 +13,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      GITHUB_OAUTH_TOKEN: {{ secrets.SRE_BOT_GRUNTWORK_OAUTH_TOKEN }}
+      GITHUB_OAUTH_TOKEN: ${{ secrets.SRE_BOT_GRUNTWORK_OAUTH_TOKEN }}
     runs-on: ubuntu-latest
 
     steps:
@@ -38,7 +38,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      GITHUB_OAUTH_TOKEN: {{ secrets.SRE_BOT_GRUNTWORK_OAUTH_TOKEN }}
+      GITHUB_OAUTH_TOKEN: ${{ secrets.SRE_BOT_GRUNTWORK_OAUTH_TOKEN }}
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
 
