@@ -25,11 +25,10 @@ jobs:
             echo 'export SOURCE_REF=$GITHUB_BASE_REF' >> $GITHUB_ENV
           fi
       - name: plan
-        uses: distil/sre-ecs-deploy-runner-github-action@main
+        uses: vytautaskubilius/sre-ecs-deploy-runner-github-action@v0.1.0
         with:
           aws-account-id: 473671374008
           region: us-east-1
-          base-ref: ${{ env.SOURCE_REF }}
           command: plan
 
   apply:
@@ -43,9 +42,15 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - uses: distil/sre-ecs-deploy-runner-github-action@main
+      - name: set-base-ref
+        run: |
+          if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
+            echo 'export SOURCE_REF=HEAD^' >> $GITHUB_ENV
+          else
+            echo 'export SOURCE_REF=$GITHUB_BASE_REF' >> $GITHUB_ENV
+          fi
+      - uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@v0.1.0
         with:
           aws-account-id: 473671374008
           region: us-east-1
-          base-ref: HEAD^
           command: apply
