@@ -17,13 +17,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: set-base-ref
-        run: |
-          if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
-            echo 'export SOURCE_REF=HEAD^' >> $GITHUB_ENV
-          else
-            echo 'export SOURCE_REF=$GITHUB_REF' >> $GITHUB_ENV
-          fi
+      - name: checkout
+        uses: actions/checkout@v2
       - name: plan
         uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@main
         with:
@@ -42,6 +37,8 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
       - name: set-base-ref
         run: |
           if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
