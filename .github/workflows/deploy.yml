@@ -25,7 +25,7 @@ jobs:
             echo 'export SOURCE_REF=$GITHUB_BASE_REF' >> $GITHUB_ENV
           fi
       - name: plan
-        uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@v0.1.1
+        uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@main
         with:
           aws-account-id: 473671374008
           region: us-east-1
@@ -49,7 +49,7 @@ jobs:
           else
             echo 'export SOURCE_REF=$GITHUB_BASE_REF' >> $GITHUB_ENV
           fi
-      - uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@v0.1.1
+      - uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@main
         with:
           aws-account-id: 473671374008
           region: us-east-1
