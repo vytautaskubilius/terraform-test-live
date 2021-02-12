@@ -9,7 +9,7 @@ on:
 jobs:
 
   plan:
-    environment: dev
+    environment: dev_tf_plan
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -21,8 +21,15 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: notify-slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: Marvin
+          SLACK_ICON: https://www.gran-turismo.com/gtsport/decal/4909570188879364120_1.png
+          S
       - name: plan
-        uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@main
+        uses: distil/ecs-deploy-runner-github-action@main
         with:
           aws-account-id: 473671374008
           region: us-east-1
@@ -44,7 +51,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: apply
-        uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@main
+        uses: distil/ecs-deploy-runner-github-action@main
         with:
           aws-account-id: 473671374008
           region: us-east-1
