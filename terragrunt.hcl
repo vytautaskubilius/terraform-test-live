@@ -28,7 +28,7 @@ remote_state {
 }
 
 terraform {
-  source = "git@github.com:vytautaskubilius/terraform-test.git?ref=v0.1.1"
+  source = "git@github.com:vytautaskubilius/terraform-test.git?ref=v0.1.2"
 }
 
 #ab
