@@ -1,0 +1,59 @@
+name: dev-2
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'environments/${{ github.workflow }}/**'
+      - 'terragrunt.hcl'
+
+  pull_request:
+    paths:
+      - 'environments/${{ github.workflow }}/**'
+      - 'terragrunt.hcl'
+
+env:
+  AWS_ACCOUNT_ID: 473671374008
+  AWS_REGION: us-east-1
+
+jobs:
+
+  plan:
+    environment: ${{ github.workflow }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      GITHUB_OAUTH_TOKEN: ${{ secrets.SRE_BOT_GRUNTWORK_OAUTH_TOKEN }}
+      TG_ENVIRONMENT: ${{ github.workflow }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: plan
+        uses: distil/ecs-deploy-runner-github-action@main
+        with:
+          command: plan-all
+
+  apply:
+    needs: plan
+    environment: ${{ github.workflow }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      GITHUB_OAUTH_TOKEN: ${{ secrets.SRE_BOT_GRUNTWORK_OAUTH_TOKEN }}
+      TG_ENVIRONMENT: ${{ github.workflow }}
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: apply
+        uses: distil/ecs-deploy-runner-github-action@main
+        with:
+          command: apply
