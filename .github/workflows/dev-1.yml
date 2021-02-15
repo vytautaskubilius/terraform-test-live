@@ -4,12 +4,12 @@ on:
     branches:
       - main
     paths:
-      - 'environments/${{ github.workflow }}/**'
+      - 'environments/dev-1/**'
       - 'terragrunt.hcl'
 
   pull_request:
     paths:
-      - 'environments/${{ github.workflow }}/**'
+      - 'environments/dev-1/**'
       - 'terragrunt.hcl'
 
 env:
