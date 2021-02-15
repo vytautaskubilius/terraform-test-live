@@ -1,15 +1,24 @@
-name: Deploy
+name: dev-1
 on:
   push:
     branches:
       - main
+    paths:
+      - 'environments/dev-1/**'
 
   pull_request:
+    paths:
+      - 'environments/dev-1/**'
+
+env:
+  AWS_ACCOUNT_ID: 473671374008
+  AWS_REGION: us-east-1
 
 jobs:
 
   plan:
-    environment: dev
+    environment:
+      name: ${{ github.workflow }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -22,15 +31,14 @@ jobs:
         with:
           fetch-depth: 0
       - name: plan
-        uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@main
+        uses: distil/ecs-deploy-runner-github-action@main
         with:
-          aws-account-id: 473671374008
-          region: us-east-1
-          command: plan
+          command: plan-all
 
   apply:
     needs: plan
-    environment: dev
+    environment:
+      name: ${{ github.workflow }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -44,8 +52,6 @@ jobs:
         with:
           fetch-depth: 0
       - name: apply
-        uses: vytautaskubilius/gruntwork-ecs-deploy-runner-github-action@main
+        uses: distil/ecs-deploy-runner-github-action@main
         with:
-          aws-account-id: 473671374008
-          region: us-east-1
           command: apply
