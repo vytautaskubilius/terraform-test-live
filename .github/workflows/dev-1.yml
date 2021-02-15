@@ -36,6 +36,7 @@ jobs:
           ls -lah
           ls -lah "$GITHUB_WORKSPACE/environments"
           ls -lah "$GITHUB_WORKSPACE/environments/$GITHUB_WORKFLOW"
+          echo "$GITHUB_WORKSPACE/environments/$GITHUB_WORKFLOW"
       - name: plan
         uses: distil/ecs-deploy-runner-github-action@main
         with:
