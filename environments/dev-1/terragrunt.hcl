@@ -1,3 +1,7 @@
+terraform {
+  source = "git@github.com:vytautaskubilius/terraform-test.git?ref=v0.1.3"
+}
+
 remote_state {
   backend = "s3"
   generate = {
@@ -25,4 +29,9 @@ remote_state {
       "github" = "N/A"
     }
   }
+}
+
+inputs = {
+  name = "v-test-1"
+  allowed_account_ids = ["473671374008"]
 }
