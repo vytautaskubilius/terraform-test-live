@@ -5,12 +5,10 @@ on:
       - main
     paths:
       - 'environments/dev-2/**'
-      - 'terragrunt.hcl'
 
   pull_request:
     paths:
       - 'environments/dev-2/**'
-      - 'terragrunt.hcl'
 
 env:
   AWS_ACCOUNT_ID: 473671374008
@@ -25,7 +23,6 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       GITHUB_OAUTH_TOKEN: ${{ secrets.SRE_BOT_GRUNTWORK_OAUTH_TOKEN }}
-      TG_ENVIRONMENT: ${{ github.workflow }}
     runs-on: ubuntu-latest
 
     steps:
@@ -46,7 +43,6 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       GITHUB_OAUTH_TOKEN: ${{ secrets.SRE_BOT_GRUNTWORK_OAUTH_TOKEN }}
-      TG_ENVIRONMENT: ${{ github.workflow }}
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
 
