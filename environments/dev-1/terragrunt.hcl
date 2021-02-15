@@ -32,6 +32,6 @@ remote_state {
 }
 
 inputs = {
-  name = "v-test-1"
+  name = "v-test-1-3"
   allowed_account_ids = ["473671374008"]
 }
