@@ -34,6 +34,8 @@ jobs:
         run: |
           ls -lah "$GITHUB_WORKSPACE"
           ls -lah
+          ls -lah "$GITHUB_WORKSPACE/environments"
+          ls -lah "$GITHUB_WORKSPACE/environments/$GITHUB_WORKFLOW"
       - name: plan
         uses: distil/ecs-deploy-runner-github-action@main
         with:
